@@ -12,7 +12,7 @@ try {
   const payload = JSON.stringify(github.context.payload, undefined, 2);
   console.log(`The event payload: ${payload}`);
 
-  slack(slackChannel,payload['repository']['name'],payload['head_commit']['message'],status, process.env.GITHUB_RUN_ID,slackToken)
+  slack(slackChannel,github.context.payload['repository']['name'],github.context.payload['head_commit']['message'],status, process.env.GITHUB_RUN_ID,slackToken)
 
 } catch (error) {
   core.setFailed(error.message);
