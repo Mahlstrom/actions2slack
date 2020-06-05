@@ -1,10 +1,23 @@
-name: 'Hello World'
-description: 'Greet someone and record the time'
+name: 'actions2slack'
+description: 'Send to slack'
 inputs:
-  who-to-greet:  # id of input
-    description: 'Who to greet'
+  slack-channel:  # id of input
+    description: 'Slack channel'
     required: true
-    default: 'World'
+    default: 'bottest'
+
+  slack-token:  # id of input
+    description: 'A slack token'
+    required: true
+
+  status:
+    description: 'STARTED, SUCCEEDED, FAILED'
+    required: true
+
+  github-run-id:
+    description: 'Github run id'
+    required: true
+
 outputs:
   time: # id of output
     description: 'The time we greeted you'
