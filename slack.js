@@ -17,7 +17,7 @@ function send2slack(channelName, githubRepo, revData, status, githubId, slackTok
             }
         }
 
-        const res = await web.chat.postMessage({
+        let message = {
             channel: convId,
             username: 'Github Actions',
             'attachments': [{
@@ -36,7 +36,22 @@ function send2slack(channelName, githubRepo, revData, status, githubId, slackTok
                 ],
                 'footer': githubId + '.'
             }]
-        });
+        };
+
+
+        const res1 = await web.channels.history({channel: convId});
+        if ('attachments' in res1.messages[0] && 'footer' in res1.messages[0]['attachments'][0]) {
+            if (res1.messages[0]['attachments'][0]['footer'] === githubId + '.') {
+                console.log(res1.messages[0]);
+                message['ts'] = res1.messages[0].ts
+            }
+        }
+        let res={'ts':'fa'};
+        if ('ts' in message) {
+             res = await web.chat.update(message);
+        } else {
+             res = await web.chat.postMessage(message);
+        }
         console.log('Message sent: ', res.ts);
         console.log('foundid: ', convId);
     })();
